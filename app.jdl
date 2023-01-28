@@ -1,0 +1,361 @@
+ application {
+
+  config {
+    baseName creditbazaar,
+    applicationType gateway,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    cacheProvider hazelcast,
+    buildTool gradle,
+    clientFramework react,
+    testFrameworks [protractor]
+  }
+   entities *
+    
+ }
+
+application {
+
+  config {
+
+    baseName myApp2,
+    applicationType microservice,
+    serviceDiscoveryType eureka,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    buildTool gradle,
+    serverPort 8081
+  }
+
+  entities Buyer,Supplier,TAN,GSTIN,PAN
+
+}
+
+
+
+entity Buyer{
+
+	Name String required,
+
+	BuyerCode String required,
+
+	Gpay String
+
+}
+
+
+
+entity Supplier{
+
+	Name String required,
+
+	SupplierCode String required,
+
+	Gpay String
+
+}
+
+
+
+entity TAN {
+
+	Name String required,
+
+	ParentName String required,
+
+	Dob String required,
+
+	Number Long required
+
+}
+
+
+
+entity GSTIN {
+
+	Name String required,
+
+	ParentName String required,
+
+	Dob String required,
+
+	Number Long required,
+
+	Address String required
+
+}
+
+
+
+entity PAN {
+
+	Name String required,
+
+	ParentName String required,
+
+	Dob String required,
+
+	Number Long required
+}
+
+entity Invoice{
+
+	Number Long required,
+
+	Amount Double required,
+
+	Date Instant required
+
+}
+
+
+
+entity InvoiceLineItem{
+
+	Description String required,
+
+	Quantity Long required
+
+	Amount Double required
+
+	AmountPerItem Double required
+
+}
+
+
+
+entity PurchaseOrder{
+
+	Number Long required,
+
+	Amount Double required,
+
+	Date Instant required
+
+}
+
+
+
+entity InvoicePayment{
+
+	InvoiceTransactionID String required,	
+
+	Date Instant required,
+
+	Amount Double required
+
+}
+
+
+
+entity Payables{
+
+	Date Instant required,
+
+	Amount Double required
+
+}
+
+
+
+entity Receivables{
+
+	Date Instant required,
+
+	Amount Double required
+
+}
+
+
+
+entity CreditNote {
+
+	Date Instant required,
+
+	Description String required,
+
+	Amount Double required
+
+}
+
+
+
+entity DebitNote {
+
+	Date Instant required,
+
+	Description String required,
+
+	Amount Double required
+
+}
+
+
+
+relationship OneToOne {
+
+	Invoice{buyerId} to Buyer,
+
+	Invoice{supplierId} to Supplier
+
+}
+
+
+
+relationship OneToOne {
+
+	PurchaseOrder{buyerId} to Buyer,
+
+	PurchaseOrder{supplierId} to Supplier
+
+}
+
+
+
+relationship OneToOne {
+
+	InvoicePayment{buyerId} to Buyer,
+
+	InvoicePayment{supplierId} to Supplier
+
+}
+
+
+
+relationship OneToOne {
+
+	PurchaseOrder{invoiceId} to Invoice
+
+}
+
+
+
+relationship OneToOne {
+
+	Payables{buyerId} to Buyer,
+
+	Receivables{supplierId} to Supplier
+
+}
+
+
+
+relationship OneToOne {
+
+	Buyer{buyerPan} to PAN,
+
+	Buyer{buyerTan} to TAN,
+
+	Buyer{buyerGstin} to GSTIN
+
+}
+
+
+
+relationship OneToOne {
+
+	Supplier{supplierPan} to PAN,
+
+	Supplier{supplierTan} to TAN,
+
+	Supplier{supplierGstin} to GSTIN
+
+}
+
+
+
+relationship OneToOne {
+
+	CreditNote{buyerId} to Buyer,
+
+	CreditNote{supplierId} to Supplier
+
+}
+
+
+
+relationship OneToOne {
+
+	DebitNote{buyerId} to Buyer,
+
+	DebitNote{supplierId} to Supplier
+
+}
+
+
+
+relationship ManyToOne {
+
+	InvoiceLineItem{invoiceId} to Invoice 
+
+}
+
+
+
+relationship ManyToOne {
+
+	InvoicePayment{invoiceId} to Invoice
+
+}
+
+
+
+relationship ManyToOne {
+
+	Invoice{invoiceId} to Payables
+
+}
+
+
+
+relationship ManyToOne {
+
+	Payables{invoiceId} to Buyer
+
+}
+
+
+
+relationship ManyToOne {
+
+	Receivables{invoiceId} to Supplier
+
+}
+
+
+
+relationship ManyToOne {
+
+	CreditNote{invoiceId} to Supplier
+
+}
+
+
+
+relationship ManyToOne {
+
+	DebitNote{invoiceId} to Buyer
+
+}
+
+
+
+paginate Buyer, Supplier with infinite-scroll
+
+paginate Invoice,InvoiceLineItem, PurchaseOrder, InvoicePayment, Payables, Receivables with pagination
+
+
+
+
+
+/* Use Data Transfer Objects (DTO) */
+
+dto * with mapstruct
+
+
+
+/* Set service options to all except few */
+
+service all with serviceImpl 
+
