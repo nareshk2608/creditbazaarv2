@@ -1,0 +1,15 @@
+apiVersion: skaffold/v1
+kind: Config
+build:
+  artifacts:
+    - image: 123456789naresh/creditbazaar
+      context: ../creditbazaar
+      jib: {}
+    - image: 123456789naresh/myapp2
+      context: ../myApp2
+      jib: {}
+  tagPolicy:
+    envTemplate:
+      template: "{{.IMAGE_NAME}}:latest"
+deploy:
+  kustomize: {}

@@ -1,0 +1,17 @@
+{
+  "generator-jhipster": {
+    "appsFolders": ["creditbazaar", "myApp2"],
+    "clusteredDbApps": {},
+    "directoryPath": "../",
+    "dockerPushCommand": "docker push",
+    "dockerRepositoryName": "123456789naresh",
+    "ingressDomain": "",
+    "istio": false,
+    "jwtSecretKey": "YTViNjMwMWIzY2Q1Y2JjN2RjMzNkNTRlNzhhYWEzNTg3MzQ2ZTkwYmVkMmQ4YmMyMmNlMWFlYzQxYjBjODRjMGFlZDkwNTkzZWVjMjYzNDUyODc3NDY1Y2YyYmM4YWY3YWY3MA==",
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "LoadBalancer",
+    "kubernetesUseDynamicStorage": false,
+    "monitoring": "no",
+    "serviceDiscoveryType": "eureka"
+  }
+}
